@@ -102,13 +102,14 @@ impl Reg00 {
     }
 
     /// Fetch 'vin_lim' field (shift: `3`, mask: `0b01111000`)
-    pub fn get_vin_lim(&self) -> i32 {
+    pub fn get_vin_lim(&self) -> i16 {
         let v = (self.raw & 0b01111000) >> 3;
-        (v as i32) * 80
+        (v as i16) * 80 + 3880
     }
     /// Set 'vin_lim' field (shift: `3`, mask: `0b01111000`)
-    pub fn set_vin_lim(&mut self, val: i32) {
+    pub fn set_vin_lim(&mut self, val: i16) {
         self.raw &= !0b01111000;
+        let val = val - 3880;
         let val = val / 80;
         self.raw |= ((val as Reg) << 3) & 0b01111000;
     }
@@ -224,14 +225,16 @@ impl Reg01 {
         }
     }
 
-    /// Fetch 'vin_lim' field  in mV (shift: `1`, mask: `0b00001110`)
-    pub fn get_vin_lim_mv(&self) -> Reg {
+    /// Fetch 'sys_min' field  in mV (shift: `1`, mask: `0b00001110`)
+    pub fn get_sys_min_mv(&self) -> i16 {
         let v = (self.raw & 0b00001110) >> 1;
-        v
+        (v as i16) * 100 + 3000
     }
-    /// Set 'vin_lim' field  in mV (shift: `1`, mask: `0b00001110`)
-    pub fn set_vin_lim_mv(&mut self, val: Reg) {
+    /// Set 'sys_min' field  in mV (shift: `1`, mask: `0b00001110`)
+    pub fn set_sys_min_mv(&mut self, val: i16) {
         self.raw &= !0b00001110;
+        let val = val - 3000;
+        let val = val / 100;
         self.raw |= ((val as Reg) << 1) & 0b00001110;
     }
 }
@@ -277,19 +280,6 @@ impl Reg02 {
         }
     }
 
-    /// Fetch 'charge_en' field (shift: `4`, mask: `0b00010000`)
-    pub fn get_charge_en(&self) -> bool {
-        let v = (self.raw & 0b00010000) >> 4;
-        v != 0
-    }
-    /// Set 'charge_en' field (shift: `4`, mask: `0b00010000`)
-    pub fn set_charge_en(&mut self, val: bool) {
-        match val {
-            true => self.raw |= 0b00010000,
-            false => self.raw &= !0b00010000,
-        }
-    }
-
     /// Fetch 'force_20_pc' field (shift: `0`, mask: `0b00000001`)
     pub fn get_force_20_pc(&self) -> bool {
         let v = (self.raw & 0b00000001) >> 0;
@@ -303,26 +293,13 @@ impl Reg02 {
         }
     }
 
-    /// Fetch 'otg_en' field (shift: `5`, mask: `0b00100000`)
-    pub fn get_otg_en(&self) -> bool {
-        let v = (self.raw & 0b00100000) >> 5;
-        v != 0
-    }
-    /// Set 'otg_en' field (shift: `5`, mask: `0b00100000`)
-    pub fn set_otg_en(&mut self, val: bool) {
-        match val {
-            true => self.raw |= 0b00100000,
-            false => self.raw &= !0b00100000,
-        }
-    }
-
-    /// Fetch 'vin_lim' field  in mA (shift: `2`, mask: `0b01111100`)
-    pub fn get_vin_lim_ma(&self) -> i32 {
+    /// Fetch 'ichg' field  in mA (shift: `2`, mask: `0b01111100`)
+    pub fn get_ichg_ma(&self) -> i16 {
         let v = (self.raw & 0b01111100) >> 2;
-        (v as i32) * 64 + 512
+        (v as i16) * 64 + 512
     }
-    /// Set 'vin_lim' field  in mA (shift: `2`, mask: `0b01111100`)
-    pub fn set_vin_lim_ma(&mut self, val: i32) {
+    /// Set 'ichg' field  in mA (shift: `2`, mask: `0b01111100`)
+    pub fn set_ichg_ma(&mut self, val: i16) {
         self.raw &= !0b01111100;
         let val = val - 512;
         let val = val / 64;

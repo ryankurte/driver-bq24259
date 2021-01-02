@@ -29,7 +29,7 @@ description = "Input Voltage Limit"
 kind = "int"
 shift = 3
 bits = 4
-conv = { scalar = 80 }
+conv = { scalar = 80, offset = 3880, width = 16 }
 
 
 [registers.reg00.fields.en_hiz]
@@ -51,13 +51,13 @@ shift = 0
 bits = 3
 values = { I1000mA = 0, I1500mA = 1 }
 
-[registers.reg01.fields.vin_lim]
+[registers.reg01.fields.sys_min]
 description = "System minimum voltage"
 kind = "int"
 shift = 1
 bits = 3
-scalar = 100
 unit = "mV"
+conv = { scalar = 100, offset = 3000, width = 16 }
 
 [registers.reg01.fields.charge_en]
 description = "Charge Enable"
@@ -95,20 +95,12 @@ description = "Set moost mode temperature monitor threshold"
 kind = "flag"
 shift = 1
 
-[registers.reg02.fields.vin_lim]
-description = "System minimum voltage"
+[registers.reg02.fields.ichg]
+description = "Fast charge current limit"
 kind = "int"
 shift = 2
 bits = 5
-conv = { scalar = 64, offset = 512 }
+conv = { scalar = 64, offset = 512, width = 16 }
 unit = "mA"
 
-[registers.reg02.fields.charge_en]
-description = "Charge Enable"
-kind = "flag"
-shift = 4
 
-[registers.reg02.fields.otg_en]
-description = "OTG Enable"
-kind = "flag"
-shift = 5
