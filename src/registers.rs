@@ -44,20 +44,8 @@ impl Into<Reg> for Reg00 {
         self.raw
     }
 }
-impl Reg00 {
-    /// Fetch 'en_hiz' field (shift: `7`, mask: `0b10000000`)
-    pub fn get_en_hiz(&self) -> bool {
-        let v = (self.raw & 0b10000000) >> 7;
-        v != 0
-    }
-    /// Set 'en_hiz' field (shift: `7`, mask: `0b10000000`)
-    pub fn set_en_hiz(&mut self, val: bool) {
-        match val {
-            true => self.raw |= 0b10000000,
-            false => self.raw &= !0b10000000,
-        }
-    }
-}
+
+/// Input Current Limit
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum IinLim {
     I1000MA = 4,
@@ -87,7 +75,21 @@ impl IinLim {
         }
     }
 }
+
 impl Reg00 {
+    /// Fetch 'en_hiz' field (shift: `7`, mask: `0b10000000`)
+    pub fn get_en_hiz(&self) -> bool {
+        let v = (self.raw & 0b10000000) >> 7;
+        v != 0
+    }
+    /// Set 'en_hiz' field (shift: `7`, mask: `0b10000000`)
+    pub fn set_en_hiz(&mut self, val: bool) {
+        match val {
+            true => self.raw |= 0b10000000,
+            false => self.raw &= !0b10000000,
+        }
+    }
+
     /// Fetch 'iin_lim' field (shift: `0`, mask: `0b00000111`)
     pub fn get_iin_lim(&self) -> IinLim {
         let v = (self.raw & 0b00000111) >> 0;
@@ -98,8 +100,7 @@ impl Reg00 {
         self.raw &= !0b00000111;
         self.raw |= ((val as Reg) << 0) & 0b00000111;
     }
-}
-impl Reg00 {
+
     /// Fetch 'vin_lim' field (shift: `3`, mask: `0b01111000`)
     pub fn get_vin_lim(&self) -> i32 {
         let v = (self.raw & 0b01111000) >> 3;
@@ -139,6 +140,8 @@ impl Into<Reg> for Reg01 {
         self.raw
     }
 }
+
+/// Boost Current Limit
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum BoostLim {
     I1000MA = 0,
@@ -156,6 +159,7 @@ impl BoostLim {
         }
     }
 }
+
 impl Reg01 {
     /// Fetch 'boost_lim' field (shift: `0`, mask: `0b00000111`)
     pub fn get_boost_lim(&self) -> BoostLim {
@@ -167,8 +171,7 @@ impl Reg01 {
         self.raw &= !0b00000111;
         self.raw |= ((val as Reg) << 0) & 0b00000111;
     }
-}
-impl Reg01 {
+
     /// Fetch 'charge_en' field (shift: `4`, mask: `0b00010000`)
     pub fn get_charge_en(&self) -> bool {
         let v = (self.raw & 0b00010000) >> 4;
@@ -181,8 +184,7 @@ impl Reg01 {
             false => self.raw &= !0b00010000,
         }
     }
-}
-impl Reg01 {
+
     /// Fetch 'iic_wdt_reset' field (shift: `6`, mask: `0b01000000`)
     pub fn get_iic_wdt_reset(&self) -> bool {
         let v = (self.raw & 0b01000000) >> 6;
@@ -195,8 +197,7 @@ impl Reg01 {
             false => self.raw &= !0b01000000,
         }
     }
-}
-impl Reg01 {
+
     /// Fetch 'otg_en' field (shift: `5`, mask: `0b00100000`)
     pub fn get_otg_en(&self) -> bool {
         let v = (self.raw & 0b00100000) >> 5;
@@ -209,8 +210,7 @@ impl Reg01 {
             false => self.raw &= !0b00100000,
         }
     }
-}
-impl Reg01 {
+
     /// Fetch 'register_reset' field (shift: `7`, mask: `0b10000000`)
     pub fn get_register_reset(&self) -> bool {
         let v = (self.raw & 0b10000000) >> 7;
@@ -223,8 +223,7 @@ impl Reg01 {
             false => self.raw &= !0b10000000,
         }
     }
-}
-impl Reg01 {
+
     /// Fetch 'vin_lim' field  in mV (shift: `1`, mask: `0b00001110`)
     pub fn get_vin_lim_mv(&self) -> Reg {
         let v = (self.raw & 0b00001110) >> 1;
@@ -263,6 +262,7 @@ impl Into<Reg> for Reg02 {
         self.raw
     }
 }
+
 impl Reg02 {
     /// Fetch 'bcold' field (shift: `1`, mask: `0b00000010`)
     pub fn get_bcold(&self) -> bool {
@@ -276,8 +276,7 @@ impl Reg02 {
             false => self.raw &= !0b00000010,
         }
     }
-}
-impl Reg02 {
+
     /// Fetch 'charge_en' field (shift: `4`, mask: `0b00010000`)
     pub fn get_charge_en(&self) -> bool {
         let v = (self.raw & 0b00010000) >> 4;
@@ -290,8 +289,7 @@ impl Reg02 {
             false => self.raw &= !0b00010000,
         }
     }
-}
-impl Reg02 {
+
     /// Fetch 'force_20_pc' field (shift: `0`, mask: `0b00000001`)
     pub fn get_force_20_pc(&self) -> bool {
         let v = (self.raw & 0b00000001) >> 0;
@@ -304,8 +302,7 @@ impl Reg02 {
             false => self.raw &= !0b00000001,
         }
     }
-}
-impl Reg02 {
+
     /// Fetch 'otg_en' field (shift: `5`, mask: `0b00100000`)
     pub fn get_otg_en(&self) -> bool {
         let v = (self.raw & 0b00100000) >> 5;
@@ -318,8 +315,7 @@ impl Reg02 {
             false => self.raw &= !0b00100000,
         }
     }
-}
-impl Reg02 {
+
     /// Fetch 'vin_lim' field  in mA (shift: `2`, mask: `0b01111100`)
     pub fn get_vin_lim_ma(&self) -> i32 {
         let v = (self.raw & 0b01111100) >> 2;
