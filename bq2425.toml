@@ -1,0 +1,114 @@
+# bq24259 device descriptor file
+# for use with [reggen](https://github.com/ryankurte/reggen)
+
+[device]
+name = "bq24259"
+header = [
+    "Device registers for bq24259",
+    "From https://www.ti.com/lit/ds/symlink/bq24259.pdf",
+    "Copyright 2021 ryan kurte",
+]
+address_width = 8
+register_width = 8
+
+# REG00
+[registers.reg00]
+description = "Input Source Control Register REG00"
+address = 0x00
+reset = 0x30
+
+[registers.reg00.fields.iin_lim]
+description = "Input Current Limit"
+kind = "enum"
+shift = 0
+bits = 3
+values = { I100mA = 0b000, I150mA =  0b001, I500mA =  0b010, I900mA =  0b011, I1000mA = 0b100, I1500mA = 0b101, I2000mA = 0b110, I3000mA = 0b111 }
+
+[registers.reg00.fields.vin_lim]
+description = "Input Voltage Limit"
+kind = "int"
+shift = 3
+bits = 4
+conv = { scalar = 80 }
+
+
+[registers.reg00.fields.en_hiz]
+description = "Enable High-Impedance mode"
+kind = "flag"
+shift = 7
+
+
+# REG01
+[registers.reg01]
+description = "Power-On Configuration Register REG01"
+address = 0x01
+reset = 0x1B
+
+[registers.reg01.fields.boost_lim]
+description = "Boost Current Limit"
+kind = "enum"
+shift = 0
+bits = 3
+values = { I1000mA = 0, I1500mA = 1 }
+
+[registers.reg01.fields.vin_lim]
+description = "System minimum voltage"
+kind = "int"
+shift = 1
+bits = 3
+scalar = 100
+unit = "mV"
+
+[registers.reg01.fields.charge_en]
+description = "Charge Enable"
+kind = "flag"
+shift = 4
+
+[registers.reg01.fields.otg_en]
+description = "OTG Enable"
+kind = "flag"
+shift = 5
+
+[registers.reg01.fields.iic_wdt_reset]
+description = "I2C Watchdog Timer Reset"
+kind = "flag"
+shift = 6
+
+[registers.reg01.fields.register_reset]
+description = "Reset Registers"
+kind = "flag"
+shift = 7
+
+# REG02
+[registers.reg02]
+description = "Charge Current Control Register REG02"
+address = 0x02
+reset = 0x60
+
+[registers.reg02.fields.force_20pc]
+description = "Force ICHG to 20% of fast charge, 50% of pre charge"
+kind = "flag"
+shift = 0
+
+[registers.reg02.fields.bcold]
+description = "Set moost mode temperature monitor threshold"
+kind = "flag"
+shift = 1
+
+[registers.reg02.fields.vin_lim]
+description = "System minimum voltage"
+kind = "int"
+shift = 2
+bits = 5
+conv = { scalar = 64, offset = 512 }
+unit = "mA"
+
+[registers.reg02.fields.charge_en]
+description = "Charge Enable"
+kind = "flag"
+shift = 4
+
+[registers.reg02.fields.otg_en]
+description = "OTG Enable"
+kind = "flag"
+shift = 5
